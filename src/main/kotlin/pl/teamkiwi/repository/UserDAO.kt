@@ -5,7 +5,6 @@ import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import java.util.*
 
-
 class UserDAO(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<UserDAO>(Users)
 

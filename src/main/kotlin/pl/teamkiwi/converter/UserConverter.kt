@@ -1,6 +1,5 @@
 package pl.teamkiwi.converter
 
-import org.joda.time.DateTime
 import pl.teamkiwi.model.UserPrincipal
 import pl.teamkiwi.model.dto.UserDTO
 import pl.teamkiwi.model.dto.create.UserCreateDTO

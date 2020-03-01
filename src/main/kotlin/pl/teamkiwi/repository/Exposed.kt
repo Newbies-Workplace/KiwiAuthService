@@ -5,6 +5,7 @@ import io.ktor.application.ApplicationFeature
 import io.ktor.util.AttributeKey
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class Exposed {
@@ -42,11 +43,9 @@ class ExposedConfiguration private constructor() {
     /**
      * Creates database schemas if they do not exists.
      */
-    fun createSchemas() {
+    fun <T: Table> createSchemas(vararg schemas: T) {
         transaction {
-            SchemaUtils.create(
-                Users
-            )
+            SchemaUtils.create(*schemas)
         }
     }
 

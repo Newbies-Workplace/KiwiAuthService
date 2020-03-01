@@ -28,6 +28,7 @@ import pl.teamkiwi.controller.AuthController
 import pl.teamkiwi.di.mainModule
 import pl.teamkiwi.exception.*
 import pl.teamkiwi.repository.Exposed
+import pl.teamkiwi.repository.Users
 import pl.teamkiwi.router.authRoutes
 import pl.teamkiwi.router.userRoutes
 import pl.teamkiwi.security.AUTH_SESSION_KEY
@@ -57,7 +58,10 @@ fun Application.mainModule() {
 
     install(Exposed) {
         connectWithConfig(get())
-        createSchemas()
+
+        createSchemas(
+            Users
+        )
     }
 
     install(CORS) {
@@ -87,9 +91,7 @@ fun Application.mainModule() {
     //todo extract into other class
     install(StatusPages) {
         exception<BadRequestException> { call.respond(HttpStatusCode.BadRequest) }
-        exception<NotFoundException> { call.respond(HttpStatusCode.NotFound) }
         exception<EmailOccupiedException> { call.respond(HttpStatusCode.Conflict) }
-        exception<NoContentException> { call.respond(HttpStatusCode.NoContent) }
         exception<UnauthorizedException> { call.respond(HttpStatusCode.Unauthorized) }
     }
 
