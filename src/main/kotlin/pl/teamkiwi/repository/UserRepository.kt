@@ -4,7 +4,6 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import pl.teamkiwi.converter.toUserDTO
 import pl.teamkiwi.model.dto.UserDTO
 import pl.teamkiwi.model.dto.create.UserCreateDTO
-import java.util.*
 
 class UserRepository {
 
@@ -12,12 +11,6 @@ class UserRepository {
         transaction {
             UserDAO.find { Users.email eq email }
                 .firstOrNull()
-                ?.toUserDTO()
-        }
-
-    fun findById(id: UUID): UserDTO? =
-        transaction {
-            UserDAO.findById(id)
                 ?.toUserDTO()
         }
 
