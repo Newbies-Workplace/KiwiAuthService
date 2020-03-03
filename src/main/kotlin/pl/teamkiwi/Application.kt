@@ -22,17 +22,17 @@ import io.ktor.sessions.header
 import org.koin.core.logger.PrintLogger
 import org.koin.ktor.ext.Koin
 import org.koin.ktor.ext.get
-import org.koin.ktor.ext.inject
 import org.slf4j.event.Level
-import pl.teamkiwi.controller.AuthController
 import pl.teamkiwi.di.mainModule
-import pl.teamkiwi.exception.*
+import pl.teamkiwi.exception.BadRequestException
+import pl.teamkiwi.exception.EmailOccupiedException
+import pl.teamkiwi.exception.UnauthorizedException
 import pl.teamkiwi.repository.Exposed
 import pl.teamkiwi.repository.Users
 import pl.teamkiwi.router.authRoutes
 import pl.teamkiwi.router.userRoutes
 import pl.teamkiwi.security.AUTH_SESSION_KEY
-import pl.teamkiwi.security.AuthSession
+import pl.teamkiwi.security.AuthPrincipal
 import java.util.*
 
 fun main(args: Array<String>) {
@@ -69,18 +69,18 @@ fun Application.mainModule() {
     }
 
     install(Sessions) {
-        header<AuthSession>(AUTH_SESSION_KEY, SessionStorageMemory()) {
+        header<AuthPrincipal>(AUTH_SESSION_KEY, SessionStorageMemory()) {
             identity { UUID.randomUUID().toString() }
         }
     }
 
     install(Authentication) {
-        val authController by inject<AuthController>()
 
-        session<AuthSession> {
+        session<AuthPrincipal> {
             challenge { call.respond(HttpStatusCode.Unauthorized) }
 
-            validate {  authController.validate(session = it) }
+            //as long as we don't support roles etc. we do not need to validate session
+            validate { it }
         }
     }
 
@@ -88,7 +88,6 @@ fun Application.mainModule() {
         jackson {}
     }
 
-    //todo extract into other class
     install(StatusPages) {
         exception<BadRequestException> { call.respond(HttpStatusCode.BadRequest) }
         exception<EmailOccupiedException> { call.respond(HttpStatusCode.Conflict) }
