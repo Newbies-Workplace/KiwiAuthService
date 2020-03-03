@@ -1,6 +1,5 @@
 package pl.teamkiwi.converter
 
-import pl.teamkiwi.model.UserPrincipal
 import pl.teamkiwi.model.dto.UserDTO
 import pl.teamkiwi.model.dto.create.UserCreateDTO
 import pl.teamkiwi.model.request.UserCreateRequest
@@ -13,12 +12,6 @@ fun UserDAO.toUserDTO() =
         id = id.toString(),
         email = email,
         passwordHash = passwordHash
-    )
-
-fun UserDTO.toUserPrincipal() =
-    UserPrincipal(
-        id = id,
-        email = email
     )
 
 fun UserDTO.toUserResponse() =

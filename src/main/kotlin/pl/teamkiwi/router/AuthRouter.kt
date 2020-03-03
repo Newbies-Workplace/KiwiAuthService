@@ -2,7 +2,6 @@ package pl.teamkiwi.router
 
 import io.ktor.application.call
 import io.ktor.auth.authenticate
-import io.ktor.request.receiveOrNull
 import io.ktor.response.respond
 import io.ktor.routing.Routing
 import io.ktor.routing.get
@@ -15,12 +14,13 @@ import pl.teamkiwi.exception.BadRequestException
 import pl.teamkiwi.exception.UnauthorizedException
 import pl.teamkiwi.model.request.UserLoginRequest
 import pl.teamkiwi.security.AUTH_SESSION_KEY
+import pl.teamkiwi.util.myReceive
 
 fun Routing.authRoutes() {
     val authController by inject<AuthController>()
 
     post("v1/login") {
-        val loginRequest = call.receiveOrNull<UserLoginRequest>() ?: throw BadRequestException()
+        val loginRequest = call.myReceive<UserLoginRequest>(BadRequestException())
 
         val session = authController.login(loginRequest)
 
