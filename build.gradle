@@ -23,6 +23,10 @@ shadowJar {
     }
 }
 
+test {
+    useJUnitPlatform()
+}
+
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions {
         jvmTarget = "1.8"
@@ -33,6 +37,7 @@ repositories {
     mavenLocal()
     jcenter()
     maven { url 'https://kotlin.bintray.com/ktor' }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -42,6 +47,9 @@ dependencies {
     //ktor core
     implementation "io.ktor:ktor-server-core:$ktor_version"
     implementation "io.ktor:ktor-server-netty:$ktor_version"
+
+    //features
+    implementation "com.github.JUtupe:ktor-exposed:$ktor_exposed_feature"
 
     //auth
     implementation "io.ktor:ktor-auth:$ktor_version"

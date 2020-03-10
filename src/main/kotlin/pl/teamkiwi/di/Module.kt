@@ -2,10 +2,10 @@ package pl.teamkiwi.di
 
 import com.typesafe.config.ConfigFactory
 import org.koin.dsl.module
+import pl.jutupe.DatabaseConfiguration
 import pl.teamkiwi.controller.AuthController
 import pl.teamkiwi.controller.UserController
 import pl.teamkiwi.converter.UserConverter
-import pl.teamkiwi.repository.DatabaseConfiguration
 import pl.teamkiwi.repository.UserRepository
 import pl.teamkiwi.security.PasswordEncoder
 import pl.teamkiwi.service.UserService
