@@ -1,8 +1,15 @@
 image: java:8
 
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay
+
 stages:
   - build
   - test
+  - deploy
 
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -25,3 +32,15 @@ test:
   stage: test
   script:
     - ./gradlew check
+
+deploy_staging:
+  stage: deploy
+  only:
+    - master
+  before_script:
+    - which sshpass || ( apt-get update -y -qq && apt-get install sshpass -y -qq )
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - export SSHPASS=$USER_PASS
+  script:
+    - sshpass -e ssh -tt newbies@147.135.210.61 -p 22 "cd ~/kiwi/kiwiauthservice/ && docker-compose kill && docker-compose pull && docker-compose up -d"
