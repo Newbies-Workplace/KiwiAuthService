@@ -4,6 +4,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import pl.teamkiwi.converter.toUserDTO
 import pl.teamkiwi.model.dto.UserDTO
 import pl.teamkiwi.model.dto.create.UserCreateDTO
+import pl.teamkiwi.repository.table.Users
 
 class UserRepository {
 

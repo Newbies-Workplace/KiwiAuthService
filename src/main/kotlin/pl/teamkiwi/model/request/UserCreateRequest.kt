@@ -4,8 +4,8 @@ import org.valiktor.functions.hasSize
 import org.valiktor.functions.isEmail
 import org.valiktor.functions.isNotBlank
 import org.valiktor.validate
-import pl.teamkiwi.repository.EMAIL_MAX_LENGTH
-import pl.teamkiwi.repository.PASSWORD_MAX_LENGTH
+import pl.teamkiwi.repository.table.EMAIL_MAX_LENGTH
+import pl.teamkiwi.repository.table.PASSWORD_MAX_LENGTH
 
 data class UserCreateRequest(
     val email: String,
