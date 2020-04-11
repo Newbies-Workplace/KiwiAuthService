@@ -24,15 +24,15 @@ import org.koin.ktor.ext.Koin
 import org.koin.ktor.ext.get
 import org.slf4j.event.Level
 import pl.jutupe.Exposed
+import pl.teamkiwi.application.model.AUTH_SESSION_KEY
+import pl.teamkiwi.application.model.AuthPrincipal
+import pl.teamkiwi.application.router.authRoutes
+import pl.teamkiwi.application.router.userRoutes
 import pl.teamkiwi.di.mainModule
-import pl.teamkiwi.exception.BadRequestException
-import pl.teamkiwi.exception.EmailOccupiedException
-import pl.teamkiwi.exception.UnauthorizedException
-import pl.teamkiwi.repository.table.Users
-import pl.teamkiwi.router.authRoutes
-import pl.teamkiwi.router.userRoutes
-import pl.teamkiwi.security.AUTH_SESSION_KEY
-import pl.teamkiwi.security.AuthPrincipal
+import pl.teamkiwi.domain.model.exception.BadRequestException
+import pl.teamkiwi.domain.model.exception.EmailOccupiedException
+import pl.teamkiwi.domain.model.exception.UnauthorizedException
+import pl.teamkiwi.infrastructure.repository.table.Users
 import java.util.*
 
 fun main(args: Array<String>) {
