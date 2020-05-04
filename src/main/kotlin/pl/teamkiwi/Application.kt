@@ -68,10 +68,8 @@ fun Application.mainModule() {
 
     install(CORS) {
         anyHost()
-
         method(HttpMethod.Options)
         method(HttpMethod.Post)
-
         header(HttpHeaders.Authorization)
         header(HttpHeaders.Origin)
         header(HttpHeaders.ContentType)
