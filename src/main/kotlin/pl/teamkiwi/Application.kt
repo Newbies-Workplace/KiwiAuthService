@@ -9,6 +9,8 @@ import io.ktor.features.CORS
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.StatusPages
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.jackson.jackson
 import io.ktor.response.respond
@@ -66,6 +68,14 @@ fun Application.mainModule() {
 
     install(CORS) {
         anyHost()
+
+        method(HttpMethod.Options)
+        method(HttpMethod.Post)
+
+        exposeHeader(HttpHeaders.Authorization)
+
+        header(HttpHeaders.Authorization)
+        header(HttpHeaders.Origin)
     }
 
     install(Sessions) {
