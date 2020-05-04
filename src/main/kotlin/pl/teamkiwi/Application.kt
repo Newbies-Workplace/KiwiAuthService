@@ -72,6 +72,9 @@ fun Application.mainModule() {
         method(HttpMethod.Options)
         method(HttpMethod.Post)
 
+        exposeHeader(HttpHeaders.AccessControlAllowHeaders)
+        exposeHeader(HttpHeaders.Authorization)
+
         header(HttpHeaders.Authorization)
         header(HttpHeaders.Origin)
         header(HttpHeaders.ContentType)
