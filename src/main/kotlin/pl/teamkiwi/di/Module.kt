@@ -3,22 +3,24 @@ package pl.teamkiwi.di
 import com.typesafe.config.ConfigFactory
 import org.koin.dsl.module
 import pl.jutupe.DatabaseConfiguration
-import pl.teamkiwi.controller.AuthController
-import pl.teamkiwi.controller.UserController
-import pl.teamkiwi.converter.UserConverter
-import pl.teamkiwi.repository.UserRepository
-import pl.teamkiwi.security.PasswordEncoder
-import pl.teamkiwi.service.UserService
+import pl.teamkiwi.application.controller.AuthController
+import pl.teamkiwi.application.controller.UserController
+import pl.teamkiwi.domain.`interface`.PasswordEncoder
+import pl.teamkiwi.domain.`interface`.UserRepository
+import pl.teamkiwi.domain.service.AuthService
+import pl.teamkiwi.domain.service.UserService
+import pl.teamkiwi.infrastructure.repository.UserExposedRepository
+import pl.teamkiwi.infrastructure.security.BCryptPasswordEncoder
 
 val mainModule = module {
-    single { PasswordEncoder() }
+    single { AuthController(get()) }
+    single { AuthService(get(), get()) }
 
-    single { AuthController(get(), get()) }
+    single { UserController(get()) }
+    single { UserService(get(), get()) }
+    single { UserExposedRepository() as UserRepository }
 
-    single { UserController(get(), get()) }
-    single { UserService(get()) }
-    single { UserRepository() }
-    single { UserConverter(get()) }
+    single { BCryptPasswordEncoder() as PasswordEncoder }
 
     single {
         DatabaseConfiguration(
