@@ -50,6 +50,7 @@ dependencies {
 
     //features
     implementation "com.github.JUtupe:ktor-exposed:$ktor_exposed_feature"
+    implementation "net.paslavsky:ktor-consul:$ktor_consul_feature"
 
     //auth
     implementation "io.ktor:ktor-auth:$ktor_version"

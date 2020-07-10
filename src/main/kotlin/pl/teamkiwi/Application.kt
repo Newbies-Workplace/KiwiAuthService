@@ -1,5 +1,6 @@
 package pl.teamkiwi
 
+import com.orbitz.consul.model.agent.Registration
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -21,6 +22,7 @@ import io.ktor.server.netty.Netty
 import io.ktor.sessions.SessionStorageMemory
 import io.ktor.sessions.Sessions
 import io.ktor.sessions.header
+import net.paslavsky.ktor.consul.ConsulFeature
 import org.koin.core.logger.PrintLogger
 import org.koin.ktor.ext.Koin
 import org.koin.ktor.ext.get
@@ -29,7 +31,9 @@ import pl.jutupe.Exposed
 import pl.teamkiwi.application.model.AUTH_SESSION_KEY
 import pl.teamkiwi.application.model.AuthPrincipal
 import pl.teamkiwi.application.router.authRoutes
+import pl.teamkiwi.application.router.healthRoutes
 import pl.teamkiwi.application.router.userRoutes
+import pl.teamkiwi.application.util.getProp
 import pl.teamkiwi.di.mainModule
 import pl.teamkiwi.domain.model.exception.BadRequestException
 import pl.teamkiwi.domain.model.exception.EmailOccupiedException
@@ -100,6 +104,15 @@ fun Application.mainModule() {
         jackson {}
     }
 
+    install(ConsulFeature) {
+        consulUrl = getProp("kiwi.consul.url")
+        host = "http://127.0.0.1"
+
+        registrationConfig {
+            check(Registration.RegCheck.http("$host:$port/health", 20))
+        }
+    }
+
     install(StatusPages) {
         exception<BadRequestException> { call.respond(HttpStatusCode.BadRequest) }
         exception<EmailOccupiedException> { call.respond(HttpStatusCode.Conflict) }
@@ -109,5 +122,6 @@ fun Application.mainModule() {
     routing {
         authRoutes()
         userRoutes()
+        healthRoutes()
     }
 }
