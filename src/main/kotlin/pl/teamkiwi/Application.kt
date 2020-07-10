@@ -106,7 +106,7 @@ fun Application.mainModule() {
 
     install(ConsulFeature) {
         consulUrl = getProp("kiwi.consul.url")
-        host = "http://3.23.87.185"
+        host = "http://127.0.0.1"
 
         registrationConfig {
             check(Registration.RegCheck.http("$host:$port/health", 20))
